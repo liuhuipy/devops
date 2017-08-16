@@ -1,0 +1,121 @@
+{% extends 'index.html' %}
+
+
+{% block main %}
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home"></i>
+            <a href="{% url 'index' %}">Home</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">资产管理</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li>
+            <a href="{% url 'networkdevice_list' %}">网络设备</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">网络设备添加</a>
+        </li>
+    </ul>
+    <div class="row-fluid sortable">
+				<div class="box span12">
+					<div class="box-header" data-original-title>
+						<h2><i class="halflings-icon white edit"></i><span class="break"></span>Form Elements</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+						<form class="form-horizontal" action="{% url 'networkdevice_add' %}" method="POST" role="form">
+                            {% csrf_token %}
+							<fieldset>
+							    <div class="control-group">
+								    <label class="control-label" for="focusedInput">{{ networkdeviceform.name.label_tag }}</label>
+								    <div class="controls">
+								    {{ networkdeviceform.name }}
+								    </div>
+							    </div>
+							    <div class="control-group">
+								    <label class="control-label">{{ networkdeviceform.sn.label_tag }}</label>
+								    <div class="controls">
+								    {{ networkdeviceform.sn }}
+								    </div>
+							    </div>
+							    <div class="control-group">
+								    <label class="control-label" for="focusedInput">{{ networkdeviceform.type.label_tag }}</label>
+								    <div class="controls">
+								    {{ networkdeviceform.type }}
+								    </div>
+							    </div>
+                                <div class="control-group">
+								    <label class="control-label" for="focusedInput">{{ networkdeviceform.user.label_tag }}</label>
+								    <div class="controls">
+								    {{ networkdeviceform.user }}
+								    </div>
+							    </div>
+                                <div class="control-group">
+								    <label class="control-label" for="focusedInput">{{ networkdeviceform.Manufactory.label_tag }}</label>
+								    <div class="controls">
+								    {{ networkdeviceform.Manufactory }}
+								    </div>
+							    </div>
+                                <div class="control-group">
+								    <label class="control-label" for="focusedInput">{{ networkdeviceform.idc.label_tag }}</label>
+								    <div class="controls">
+								    {{ networkdeviceform.idc }}
+								    </div>
+							    </div>
+                                <div class="control-group">
+								    <label class="control-label" for="focusedInput">{{ networkdeviceform.vlan_ip.label_tag }}</label>
+								    <div class="controls">
+								    {{ networkdeviceform.vlan_ip }}
+								    </div>
+							    </div>
+                                <div class="control-group">
+								    <label class="control-label" for="focusedInput">{{ networkdeviceform.intranet_ip.label_tag }}</label>
+								    <div class="controls">
+								    {{ networkdeviceform.intranet_ip }}
+								    </div>
+							    </div>
+                                <div class="control-group">
+								    <label class="control-label" for="focusedInput">{{ networkdeviceform.model.label_tag }}</label>
+								    <div class="controls">
+								    {{ networkdeviceform.model }}
+								    </div>
+							    </div>
+                                <div class="control-group">
+								    <label class="control-label" for="focusedInput">{{ networkdeviceform.port_num.label_tag }}</label>
+								    <div class="controls">
+								    {{ networkdeviceform.port_num }}
+								    </div>
+							    </div>
+                                <div class="control-group">
+								    <label class="control-label" for="focusedInput">{{ networkdeviceform.status.label_tag }}</label>
+								    <div class="controls">
+								    {{ networkdeviceform.status }}
+								    </div>
+							    </div>
+                                <div class="control-group">
+								    <label class="control-label" for="focusedInput">{{ networkdeviceform.device_detail.label_tag }}</label>
+								    <div class="controls">
+								    {{ networkdeviceform.device_detail }}
+								    </div>
+							    </div>
+							    <div class="form-actions">
+								    <button type="submit" class="btn btn-primary">Save changes</button>
+								    <button class="btn">Cancel</button>
+							    </div>
+							</fieldset>
+						  </form>
+
+					</div>
+				</div><!--/span-->
+
+			</div><!--/row-->
+
+{% endblock %}

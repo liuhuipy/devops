@@ -1,0 +1,54 @@
+{% extends 'index.html' %}
+
+{% block title %}用户登录{% endblock %}
+{% block link %}
+    <link id="bootstrap-style" href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link id="base-style" href="/static/css/style.css" rel="stylesheet">
+    <link id="base-style-responsive" href="/static/css/style-responsive.css" rel="stylesheet">
+    <link href="/static/css/login.css" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+
+<div class="login-box">
+    <div class="icons">
+        <a href="#"><i class="halflings-icon home"></i></a>
+        <a href="#"><i class="halflings-icon cog"></i></a>
+    </div>
+    <h2>请先登录</h2>
+    <form class="form-horizontal" action="{% url 'login' %}" method="POST" role="form">
+        {% csrf_token %}
+        <fieldset>
+            <div class="input-prepend" title="Username">
+                <span class="add-on"><i class="halflings-icon e-mail"></i></span>
+                <input class="input-large span10" name="username" id="username" type="text" placeholder="please input username"/>
+            </div>
+            <div class="clearfix"></div>
+            <div class="input-prepend" title="Password">
+                <span class="add-on"><i class="halflings-icon lock"></i></span>
+                <input class="input-large span10" name="password" id="password" type="password" placeholder="please input password"/>
+            </div>
+            <ul>
+                {% for key, error in form.errors.items %}
+                    <li><span style="text-align: center; color: #953b39;">{{ error }}</span></li>
+                {% endfor %}
+            </ul>
+            <div class="clearfix"></div>
+            <div class="checkbox">
+                <label class="remember" for="remember">
+                    <input type="checkbox" id="remember"/>记住我
+                </label>
+                <a href="#">忘记密码?</a><br>
+            </div>
+            <div class="">
+                <input type="submit" value="登 录">
+            </div>
+            <div class="clearfix"></div>
+        </fieldset>
+    </form>
+
+</div><!--/span-->
+{% endblock %}
+{% block script %}
+{% endblock %}
