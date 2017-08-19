@@ -4,7 +4,7 @@ __author__ = 'liuhui'
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.db.models import Q
@@ -51,7 +51,19 @@ def HostAdd(request):
 
 
 
-class HostDeleteView():
-    pass
+@login_required
+def HostDel(request):
+    asset_id = request.GET.get('id', '')
+    if asset_id:
+        Host.objects.filter(id=asset_id).delete()
+
+    if request.method == 'POST':
+        asset_batch = request.GET.get('arg', '')
+        asset_id_all = str(request.POST.get('asset_id_all', ''))
+
+        if asset_batch:
+            for asset_id in asset_id_all.split(','):
+                Host.objects.filter(id=asset_id).delete()
+    return HttpResponse(u'删除成功')
 
 
