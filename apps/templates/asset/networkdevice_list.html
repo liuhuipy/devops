@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/dataTables.bootstrap.min.css">
+{% endblock %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>
+            网络设备列表
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-server"></i> 资产管理</a>
+            <li><a href="#"> 网络设备</a></li>
+            <li class="active"><a href="#">网络设备列表</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <a href="{% url 'networkdevice_add' %}">
+                            <button class="btn btn-success">
+                                <span class="glyphicon glyphicon-plus"></span>添加机房
+                            </button>
+                        </a>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>设备名</th>
+                                <th>类型</th>
+                                <th>管理IP</th>
+                                <th>其他IP</th>
+                                <th>厂商</th>
+                                <th>管理人</th>
+                                <th>接口个数</th>
+                                <th>配置详情</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for networkdevice in networkdevice_list %}
+                                <tr>
+                                    <td><a href="{% url 'index' %}">{{ networkdevice.device_name }}</a></td>
+                                    <td>
+                                        {% if networkdevice.device_type == 'route' %}
+                                            路由器
+                                        {% else %}
+                                            交换机
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ networkdevice.manage_ipaddress }}</td>
+                                    <td>{{ networkdevice.other_ipaddress }}</td>
+                                    <td>{{ networkdevice.manufactory }}</td>
+                                    <td>{{ networkdevice.manage_user }}</td>
+                                    <td>{{ networkdevice.port_num }}</td>
+                                    <td>{{ networkdevice.device_detail }}</td>
+                                    <td>
+                                        <a href="{% url 'networkdevice_detail' networkdevice.pk %}"><span class="label label-primary">detail</span></a>
+                                        <a href="{% url 'networkdevice_edit' networkdevice.pk %}"><span class="label label-warning">edit</span></a>
+                                        <a href="{% url 'networkdevice_add' %}"><span class="label label-success">add</span></a>
+                                        <button class="btn btn-danger btn-xs" data-toggle="modal"
+                                                data-target="#{{ networkdevice.pk }}">
+                                            delete
+                                        </button>
+                                        <div class="modal fade" id="{{ networkdevice.pk }}" tabindex="-1" role="dialog"
+                                             aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel" style="color: #953b39;">网络设备删除</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>
+                                                            确定要删除设备
+                                                            <a href="">{{ networkdevice.name }}</a>？
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form action="{% url 'networkdevice_del' networkdevice.pk %}" method="POST">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-danger">
+                                                                删除
+                                                            </button>
+                                                            <button type="button" class="btn btn-default"
+                                                                    data-dismiss="modal">取消
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/dataTables.bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $('#g-2').addClass('active');
+        $('#g-2-3').addClass('active');
+    });
+    $(function () {
+        $('#example1').DataTable();
+    })
+    </script>
+{% endblock %}

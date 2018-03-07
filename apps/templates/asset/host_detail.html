@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/host.css">
+{% endblock %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>
+            主机详情
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-server"></i> 资产管理</a>
+            <li><a href="{% url 'host_list' %}"> 主机</a></li>
+            <li class="active"><a href="#">主机详情</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h1 class="box-title" style="font-size: 25px;">{{ host.hostname }}</h1>
+                        <a href="{% url 'host_edit' host.pk %}" class="pull-right"><button class="btn btn-primary">修改主机配置</button></a>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-horizontal">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    主机ID：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.id }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    主机名：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.hostname }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    管理IP：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.manage_ipaddress }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    其他IP：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.other_ipaddress }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    MAC地址：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.macaddress }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    SN号：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.sn }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    所在机房：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.idc }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    厂商：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.manufactory }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    主机型号：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.host_model }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    管理人：
+                                </div>
+                                <div class="col-md-8 hos">
+
+                                    <a href=""><button class="btn btn-success btn-xs">
+                                        <span class="fa fa-user-md"></span>
+                                        <b>{{ host.manage_user }}</b></button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    主机组：
+                                </div>
+                                <div class="col-md-8">
+                                    {% for hostgroup in host.hostgroup.all %}
+                                        <a href=""><button class="btn btn-info btn-xs">{{ hostgroup }}</button></a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    主机类型：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.get_host_type_display }}{{ host.level }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    操作系统：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.get_os_type_display }}{{ host.level }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    系统版本：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.os_version }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    CPU型号：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.cpu_model }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    物理CPU个数：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.cpu_num }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    逻辑CPU个数：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.cpu_cores }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    状态：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.get_status_display }}{{ host.level }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    描述：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.descrition }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    创建时间：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ host.create_time }}</b>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(document).ready(function () {
+            $('#g-2').addClass('active');
+            $('#g-2-1').addClass('active');
+        });
+    </script>
+{% endblock %}

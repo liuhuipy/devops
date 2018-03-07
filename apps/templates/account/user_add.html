@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home"></i>
+            <a href="{% url 'index' %}">Home</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">用户管理</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li>
+            <a href="{% url 'user_add' %}">用户添加</a>
+        </li>
+    </ul>
+    <div class="row-fluid sortable">
+				<div class="box span12">
+					<div class="box-header" data-original-title>
+						<h2><i class="halflings-icon white edit"></i><span class="break"></span>Form Elements</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+						<form class="form-horizontal" action="{% url 'user_add' %}" method="POST" role="form">
+							{% csrf_token %}
+                            <fieldset>
+							    <div class="control-group">
+								    <label class="control-label" for="focusedInput">{{ userform.username.label_tag }}</label>
+								    <div class="controls">
+								    {{ userform.username }}
+								    </div>
+                                    <div class="errors-log">
+                                        {{ userform.errors }}
+                                    </div>
+							    </div>
+							    <div class="control-group">
+								    <label class="control-label">{{ userform.email.label_tag }}</label>
+								    <div class="controls">
+								    {{ userform.email }}
+								    </div>
+							    </div>
+							    <div class="control-group">
+								    <label class="control-label" for="focusedInput">{{ userform.password.label_tag }}</label>
+								    <div class="controls">
+								    {{ userform.password }}
+								    </div>
+							    </div>
+                                <div class="control-group">
+								    <label class="control-label" for="focusedInput">{{ userform.role.label_tag }}</label>
+								    <div class="controls">
+								    {{ userform.role }}
+								    </div>
+							    </div>
+                                <div class="control-group">
+								    <label class="control-label" for="focusedInput">{{ userform.is_active.label_tag }}</label>
+								    <div class="controls">
+								    {{ userform.is_active }}
+								    </div>
+							    </div>
+							    <div class="form-actions">
+								    <button type="submit" class="btn btn-primary">Save changes</button>
+								    <button class="btn">Cancel</button>
+							    </div>
+							</fieldset>
+						  </form>
+
+					</div>
+				</div><!--/span-->
+
+			</div><!--/row-->
+
+{% endblock %}

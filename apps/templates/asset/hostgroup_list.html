@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/dataTables.bootstrap.min.css">
+{% endblock %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>
+            主机组列表
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-server"></i> 资产管理</a>
+            <li><a href="#"> 主机组</a></li>
+            <li class="active"><a href="#">主机组列表</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <a href="{% url 'hostgroup_add' %}">
+                            <button class="btn btn-success">
+                                <span class="glyphicon glyphicon-plus"></span>添加主机组
+                            </button>
+                        </a>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>主机组名</th>
+                                <th>描述</th>
+                                <th>创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for hostgroup in hostgroup_list %}
+                                <tr>
+                                    <td><a style="color: #00a7d0;" href="{% url 'index' %}">{{ hostgroup.name }}</a>
+                                    </td>
+                                    <td>{{ hostgroup.description }}</td>
+                                    <td>{{ hostgroup.create_time }}</td>
+                                    <td>
+                                        <a href="{% url 'hostgroup_detail' hostgroup.pk %}"><span class="btn btn-primary btn-xs">detail</span></a>
+                                        <a href="{% url 'hostgroup_edit' hostgroup.pk %}"><span class="btn btn-warning btn-xs">edit</span></a>
+                                        <a href="{% url 'hostgroup_add' %}"><span class="btn btn-success btn-xs">add</span></a>
+                                        <button class="btn btn-danger btn-xs" data-toggle="modal"
+                                                data-target="#{{ hostgroup.pk }}">
+                                            delete
+                                        </button>
+                                        <div class="modal fade" id="{{ hostgroup.pk }}" tabindex="-1" role="dialog"
+                                             aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel" style="color: #953b39;">主机组删除</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>
+                                                            确定要删除主机组
+                                                            <a href="">{{ hostgroup.name }}</a>？
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form action="{% url 'hostgroup_del' hostgroup.pk %}" method="POST">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-danger">
+                                                                删除
+                                                            </button>
+                                                            <button type="button" class="btn btn-default"
+                                                                    data-dismiss="modal">取消
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/dataTables.bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#g-2').addClass('active');
+            $('#g-2-2').addClass('active');
+        });
+        $(function () {
+            $('#example1').DataTable();
+        })
+    </script>
+{% endblock %}
