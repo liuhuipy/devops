@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import xadmin
-from assets.models import IDC, Host, HostGroup, NetworkDevice
+from assets.models import IDC, Asset, AssetGroup
 
 
 class IDCAdmin:
@@ -10,29 +10,20 @@ class IDCAdmin:
     list_filter = ('name','address','manage_user__username','network','operator')
 
 
-class HostAdmin:
-    list_display = ('hostname','manage_ipaddress','macaddress','sn','hostgroup','idc','host_type','status')
-    search_fields = ('hostname','manage_ipaddress','macaddress','sn','hostgroup','idc','host_type','status')
-    list_filter = ('hostname','manage_ipaddress','macaddress','sn','hostgroup','idc','host_type','status')
-    style_fields = {'content': 'ueditor', 'hostgroup': 'm2m_transfer'}
+class AssetAdmin:
+    list_display = ('asset_name','manage_ipaddress','asset_type','macaddress','sn','asset_group','idc','status')
+    search_fields = ('asset_name','manage_ipaddress','asset_type','macaddress','sn','asset_group','idc','status')
+    list_filter = ('asset_name','manage_ipaddress','asset_type','macaddress','sn','asset_group','idc','status')
+    style_fields = {'content': 'ueditor', 'asset_group': 'm2m_transfer'}
 
 
-class HostGroupAdmin:
+class AssetGroupAdmin:
     list_display = ('name', 'description','create_time','update_time')
     search_fields = ('name', 'description')
     list_filter = ('name', 'description')
 
 
-class NetWorkDeviceAdmin:
-    list_display = ('device_name', 'manage_ipaddress','device_type','other_ipaddress', 'macaddress', 'sn',
-                    'port_num', 'idc', 'manufactory', 'manage_user', 'device_detail', 'status')
-    search_fields = ('device_name', 'manage_ipaddress','device_type','other_ipaddress', 'macaddress', 'sn',
-                    'port_num', 'idc', 'manufactory', 'manage_user', 'device_detail', 'status')
-    list_filter = ('device_name', 'manage_ipaddress','device_type','other_ipaddress', 'macaddress', 'sn',
-                    'port_num', 'idc', 'manufactory', 'manage_user', 'device_detail', 'status')
-
-
 xadmin.site.register(IDC, IDCAdmin)
-xadmin.site.register(Host, HostAdmin)
-xadmin.site.register(HostGroup, HostGroupAdmin)
-xadmin.site.register(NetworkDevice, NetWorkDeviceAdmin)
+xadmin.site.register(Asset, AssetAdmin)
+xadmin.site.register(AssetGroup, AssetGroupAdmin)
+# xadmin.site.register(Disk, DiskAdmin)

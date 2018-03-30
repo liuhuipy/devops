@@ -136,7 +136,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="{% url 'user_detail' user.pk %}" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
                   <a href="{% url 'logout' %}" class="btn btn-default btn-flat">Logout</a>
@@ -160,7 +160,7 @@
         </div>
         <div class="pull-left info">
           <p>{{ user.username }}</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a> 在线
+            <a href="{% url 'user_detail' user.pk %}"><i class="fa fa-circle text-success"></i> Online 在线</a>
         </div>
       </div>
       <!-- search form -->
@@ -193,9 +193,9 @@
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
+      <b>Version</b> v0.1
     </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+    <strong>Copyright &copy; 2017-2018 <a href="https://github.com/liuhuipy">Devops自动化运维</a>.</strong> All rights
     reserved.
   </footer>
 

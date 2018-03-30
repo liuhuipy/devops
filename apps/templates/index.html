@@ -18,14 +18,14 @@
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>{{ host_count }}<sub style="font-size: 20px">台</sub></h3>
+                        <h3>{{ asset_count }}<sub style="font-size: 20px">台</sub></h3>
 
-                        <p>主机</p>
+                        <p>主机资产</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-cloud"></i>
                     </div>
-                    <a href="{% url 'host_list' %}" class="small-box-footer">主机列表详情 <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'asset_list' %}" class="small-box-footer">主机资产列表详情 <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -40,7 +40,7 @@
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'user_list' %}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -48,7 +48,7 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>{{ power_count }}<sub style="font-size: 20px">条</sub></h3>
+                        <h3>{{ permission_count }}<sub style="font-size: 20px">条</sub></h3>
 
                         <p>权限配置</p>
                     </div>
@@ -80,7 +80,7 @@
                 <div class="box box-danger">
                     <div class="box-header with-border">
                         <i class="fa fa-server"></i>
-                        <h3 class="box-title">主机信息图</h3>
+                        <h3 class="box-title">主机资产信息图</h3>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
@@ -167,12 +167,11 @@
             var donut1 = new Morris.Donut({
                 element: 'sales-chart1',
                 resize: true,
-                colors: ["#00a65a", "#f56954", "#f39c12", "#00c0ef"],
+                colors: ["#00a65a", "#f56954", "#00c0ef"],
                 data: [
-                    {label: "正常主机", value: '{{ host_normal_count }}'},
-                    {label: "故障主机", value: '{{ host_measure_count }}'},
-                    {label: "废弃主机", value: '{{ host_scrap_count }}'},
-                    {label: "其他主机", value: '{{ host_other_count }}'}
+                    {label: "正常主机", value: '{{ asset_normal_count }}'},
+                    {label: "故障主机", value: '{{ asset_measure_count }}'},
+                    {label: "其他主机", value: '{{ asset_other_count }}'}
                 ],
                 hideHover: 'auto'
             });
@@ -181,8 +180,8 @@
                 resize: true,
                 colors: ["#00bbbb", "#f56954"],
                 data: [
-                    {label: "激活用户", value: '{{ user_is_active_count }}'},
-                    {label: "未激活用户", value: '{{ user_is_not_active_count }}'}
+                    {label: "管理员", value: '{{ user_is_staff_count }}'},
+                    {label: "普通用户", value: '{{ user_is_not_staff_count }}'}
                 ],
                 hideHover: 'auto'
             });

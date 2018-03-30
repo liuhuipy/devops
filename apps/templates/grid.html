@@ -1,7 +1,7 @@
 <ul class="sidebar-menu" data-widget="tree">
     <li class="header">管理菜单</li>
     <li class="treeview" id="g-1">
-        <a href="">
+        <a href="{% url 'index' %}">
             <i class="fa fa-dashboard" aria-hidden="true"></i>
             <span>Dashboard</span>
         </a>
@@ -17,28 +17,21 @@
         <a href="">
             <i class="fa fa-server" aria-hidden="true"></i>
             <span>资产管理</span>
-            <span class="label label-primary pull-right">{{ asset_count }}</span>
         </a>
         <ul class="treeview-menu">
             <li id="g-2-1">
-                <a href="{% url 'host_list' %}">
-                    <i class="fa fa-circle-o"></i> 主机
-                    <span class="label label-info pull-right">{{ host_count }}</span>
+                <a href="{% url 'asset_list' %}">
+                    <i class="fa fa-circle-o"></i> 资产
+                    <span class="label label-info pull-right">{{ asset_count }}</span>
                 </a>
             </li>
             <li id="g-2-2">
-                <a href="{% url 'hostgroup_list' %}">
-                    <i class="fa fa-circle-o"></i> 主机组
-                    <span class="label label-info pull-right">{{ hostgroup_count }}</span>
+                <a href="{% url 'assetgroup_list' %}">
+                    <i class="fa fa-circle-o"></i> 资产组
+                    <span class="label label-info pull-right">{{ assetgroup_count }}</span>
                 </a>
             </li>
             <li id="g-2-3">
-                <a href="{% url 'networkdevice_list' %}">
-                    <i class="fa fa-circle-o"></i> 网络设备
-                    <span class="label label-info pull-right">{{ networkdevice_count }}</span>
-                </a>
-            </li>
-            <li id="g-2-4">
                 <a href="{% url 'idc_list' %}">
                     <i class="fa fa-circle-o"></i> 机房管理
                     <span class="label label-info pull-right">{{ idc_count }}</span>
@@ -50,19 +43,18 @@
         <a href="#">
             <i class="fa fa-user-md" aria-hidden="true"></i>
             <span>用户管理</span>
-            <span class="label label-primary pull-right">{{ user_count }}</span>
         </a>
         <ul class="treeview-menu">
             <li id="g-3-1">
-                <a href="">
+                <a href="{% url 'user_list' %}">
                     <i class="fa fa-user-circle-o"></i> 用户
                     <span class="label label-info pull-right">{{ user_count }}</span>
                 </a>
             </li>
             <li id="g-3-2">
-                <a href="">
+                <a href="{% url 'usergroup_list' %}">
                     <i class="fa fa-circle-o"></i> 用户组
-                    <span class="label label-info pull-right">{{ hostgroup_count }}</span>
+                    <span class="label label-info pull-right">{{ usergroup_count }}</span>
                 </a>
             </li>
         </ul>
@@ -71,17 +63,17 @@
         <a href="#">
             <i class="fa fa-cogs" aria-hidden="true"></i>
             <span>权限管理</span>
-            <span class="label label-primary pull-right">3</span>
         </a>
         <ul class="treeview-menu">
             <li id="g-4-1">
-                <a href="">
-                    <i class="fa fa-circle-o"></i> 操作权限
+                <a href="{% url 'user_permission_list' user.pk %}">
+                    <i class="fa fa-circle-o"></i> 我的权限
                 </a>
             </li>
             <li id="g-4-2">
-                <a href="">
-                    <i class="fa fa-circle-o"></i> 访问权限
+                <a href="{% url 'action_permission_list' %}">
+                    <i class="fa fa-circle-o"></i> 权限列表
+                    <span class="label label-primary pull-right">{{ permission_count }}</span>
                 </a>
             </li>
         </ul>

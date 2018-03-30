@@ -4,10 +4,10 @@ from django import forms
 # from django.forms import ModelForm
 from django.forms.widgets import *
 
-from assets.models import Host, HostGroup, NetworkDevice, IDC
+from assets.models import IDC, Asset, AssetGroup
 
 
-class HostForm(forms.ModelForm):
+class AssetForm(forms.ModelForm):
     '''
     sn = forms.CharField(
         widget=TextInput(attrs={'class': 'form-control', 'placeholder': 'sn'}),
@@ -99,39 +99,41 @@ class HostForm(forms.ModelForm):
     )
     '''
     class Meta:
-        model = Host
+        model = Asset
         fields = [
-            'hostname','manage_ipaddress','other_ipaddress','manage_user'
+            'asset_name','manage_ipaddress','other_ipaddress','manage_user','sn',
             # 'hostname', 'manage_ipaddress', 'other_ipaddress', 'macaddress', 'sn', 'idc', 'hostgroup', 'host_type',
             # 'host_model', 'manufactory', 'os_type', 'os_version', 'manage_user', 'cpu_model', 'cpu_num', 'cpu_cores',
             # 'memory', 'disk', 'status', 'description'
         ]
         widgets = {
-            'hostname': TextInput(attrs={'class': 'form-control','placeholder': 'hostname'}),
+            'asset_name': TextInput(attrs={'class': 'form-control','placeholder': 'hostname'}),
             'manage_ipaddress': TextInput(attrs={'class': 'form-control', 'data-inputmask': "'alias': 'ip'",
                                          'data-mask': '', 'placeholder': 'manage_ip'}),
             'other_ipaddress': TextInput(attrs={'class': 'form-control', 'data-inputmask': "'alias': 'ip'",
                                          'data-mask': '', 'placeholder': 'other_ip'}),
             'manage_user': Select(attrs={'class': 'form-control select2', 'placeholder': 'manage_user'}),
+            'sn': TextInput(attrs={'class': 'form-control', 'placeholder': 'sn'}),
         }
         labels = {
-            'hostname': '主机名',
+            'asset_name': '资产名',
             'manage_ipaddress': '管理IP',
             'other_ipaddress': '其他IP',
             'manage_user': '管理人',
+            'sn': 'SN号',
         }
 
 
-class HostGroupForm(forms.ModelForm):
+class AssetGroupForm(forms.ModelForm):
     class Meta:
-        model = HostGroup
+        model = AssetGroup
         fields = ['name', 'description']
         widgets = {
             'name': TextInput(attrs={'class': 'form-control','placeholder': 'hostname'}),
             'description': Textarea(attrs={'class': 'form-control', 'placeholder': 'description'}),
         }
         labels = {
-            'name': '主机组名',
+            'name': '资产组名',
             'description': '描述',
         }
 
@@ -159,45 +161,6 @@ class IDCForm(forms.ModelForm):
             'network': 'IP地址范围',
             'operator': '运营商',
             'description': '描述',
-        }
-
-
-class NetworkDeviceForm(forms.ModelForm):
-    class Meta:
-        model = NetworkDevice
-        fields = [
-            'device_name', 'manage_ipaddress', 'device_type', 'other_ipaddress', 'macaddress', 'sn',
-            'port_num', 'idc', 'manufactory', 'manage_user', 'device_detail', 'status',
-        ]
-        widgets = {
-            'device_name': TextInput(attrs={'class': 'form-control', 'placeholder': 'device_name'}),
-            'manage_ipaddress': TextInput(attrs={'class': 'form-control', 'data-inputmask': "'alias': 'ip'",
-                                         'data-mask': '', 'placeholder': 'manage_ipaddress'}),
-            'device_type': Select(attrs={'class': 'form-control select2', 'placeholder': 'device_type'}),
-            'other_ipaddress': TextInput(attrs={'class': 'form-control', 'data-inputmask': "'alias': 'ip'",
-                                         'data-mask': '', 'placeholder': 'other_ipaddress'}),
-            'macaddress': TextInput(attrs={'class': 'form-control', 'placeholder': 'macaddress'}),
-            'sn': TextInput(attrs={'class': 'form-control', 'placeholder': 'sn'}),
-            'port_num': TextInput(attrs={'class': 'form-control', 'placeholder': 'port_num'}),
-            'idc': Select(attrs={'class': 'form-control select2', 'placeholder': 'idc'}),
-            'manfactory': TextInput(attrs={'class': 'form-control', 'placeholder': 'manfactory'}),
-            'manage_user': Select(attrs={'class': 'form-control select2', 'placeholder': 'manage_user'}),
-            'device_detail': Textarea(attrs={'class': 'form-control', 'placeholder': 'device_detail'}),
-            'status': Select(attrs={'class': 'form-control select2', 'placeholder': 'status'}),
-        }
-        labels = {
-            'device_name': '设备名称',
-            'manage_ipaddress': '管理IP',
-            'device_type': '设备类型',
-            'other_ipaddress': '其他IP',
-            'macaddress': 'MAC地址',
-            'sn': 'SN号',
-            'port_num': '端口个数',
-            'idc': '机房',
-            'manufactory': '厂商',
-            'manage_user': '管理人',
-            'device_detail': '配置详情',
-            'status': '状态',
         }
 
 

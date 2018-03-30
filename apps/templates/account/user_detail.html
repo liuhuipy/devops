@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/host.css">
+{% endblock %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>
+            用户详情
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-server"></i> 用户管理</a>
+            <li><a href="{% url 'user_list' %}"> 用户</a></li>
+            <li class="active"><a href="#">用户详情</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h1 class="box-title" style="font-size: 25px;">{{ user.username }}</h1>
+                        <a href="{% url 'user_edit' user.pk %}" class="pull-right"><button class="btn btn-primary">修改用户信息</button></a>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-horizontal">
+                        <div class="col-md-11">
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    用户名：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ user.username }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    邮箱：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ user.email }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    密码：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ user.password }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    电话：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ user.phone }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    头像：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <img src="{{ MEDIA_URL }}{{ user.image }}" class="img-circle" style="height: 30px;
+                                    width: 30px;" alt="User Image">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    所在用户组：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ user.user_group }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    是否激活：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ user.is_active }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    是否为管理员：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ user.is_staff }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    是否为超级管理员：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ user.is_superuser }}</b>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">
+                                    创建时间：
+                                </div>
+                                <div class="col-md-8 hos">
+                                    <b>{{ user.create_time }}</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(document).ready(function () {
+            $('#g-3').addClass('active');
+            $('#g-3-1').addClass('active');
+        });
+    </script>
+{% endblock %}

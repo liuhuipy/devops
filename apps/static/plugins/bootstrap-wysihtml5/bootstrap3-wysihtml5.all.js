@@ -5594,7 +5594,7 @@ wysihtml5.dom.getStyle = (function() {
 };;/**
  * High performant way to check whether an element with a specific tag name is in the given document
  * Optimized for being heavily executed
- * Unleashes the power of live node lists
+ * Unleashes the permission of live node lists
  *
  * @param {Object} doc The document object of the context where to check
  * @param {String} tagName Upper cased tag name
@@ -5622,7 +5622,7 @@ wysihtml5.dom.hasElementWithTagName = (function() {
 ;/**
  * High performant way to check whether an element with a specific class name is in the given document
  * Optimized for being heavily executed
- * Unleashes the power of live node lists
+ * Unleashes the permission of live node lists
  *
  * @param {Object} doc The document object of the context where to check
  * @param {String} tagName Upper cased tag name

@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/dataTables.bootstrap.min.css">
+    <style>
+        .scroll {
+            position: relative;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>
+            用户列表
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-server"></i> 用户管理</a>
+            <li><a href="#"> 用户</a></li>
+            <li class="active"><a href="#">用户列表</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <a href="{% url 'user_add' %}">
+                            <button class="btn btn-success">
+                                <span class="glyphicon glyphicon-plus"></span>添加用户
+                            </button>
+                        </a>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>用户名</th>
+                                <th>邮箱</th>
+                                <th>密码</th>
+                                <th>电话</th>
+                                <th>用户组</th>
+                                <th>激活</th>
+                                <th>管理员</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in user_list %}
+                                <tr>
+                                    <td><a style="color: #00a7d0;"
+                                           href="{% url 'user_detail' user.pk %}">{{ user.username }}</a></td>
+                                    <td><a style="color: #00a7d0;"
+                                           href="{% url 'user_detail' user.pk %}">{{ user.email }}</a></td>
+                                    <td>
+                                        {{ user.password|slice:"25" }}
+                                        {% if user.password|length > 25 %}
+                                            ......
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ user.phone }}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{ user.user_group.all.count }}个用户组 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                {% for usergroup in user.user_group.all %}
+                                                    <li>
+                                                        <a href="{% url 'usergroup_detail' usergroup.pk %}">{{ usergroup }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>{{ user.is_active }}</td>
+                                    <td>
+                                        {{ user.is_staff }}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'user_detail' user.pk %}">
+                                            <button class="btn btn-primary btn-xs">详情</button>
+                                        </a>
+                                        <a href="{% url 'user_edit' user.pk %}">
+                                            <button class="btn btn-warning btn-xs">编辑</button>
+                                        </a>
+                                        <a href="{% url 'user_add' %}">
+                                            <button class="btn btn-success btn-xs">添加</button>
+                                        </a>
+                                        <button class="btn btn-danger btn-xs" data-toggle="modal"
+                                                data-target="#{{ user.pk }}">
+                                            删除
+                                        </button>
+                                        <div class="modal fade" id="{{ user.pk }}" tabindex="-1" role="dialog"
+                                             aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel"
+                                                            style="color: #953b39;">用户删除</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>
+                                                            确定要删除用户
+                                                            <a href="">{{ user.username }}</a>？
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form action="{% url 'user_del' user.pk %}" method="POST">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-danger">
+                                                                删除
+                                                            </button>
+                                                            <button type="button" class="btn btn-default"
+                                                                    data-dismiss="modal">取消
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/dataTables.bootstrap.min.js"></script>
+    <script>
+        $('.scroll').scrollspy({target: '#navbar-example'});
+        $('[data-spy="scroll"]').each(function () {
+            var $spy = $(this).scrollspy('refresh')
+        });
+        $(document).ready(function () {
+            $('#g-3').addClass('active');
+            $('#g-3-1').addClass('active');
+        });
+        $(function () {
+            $('#example1').DataTable();
+        })
+    </script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/dataTables.bootstrap.min.css">
+    <style>
+        .scroll {
+            position: relative;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>
+            访问权限
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="#">查看个人权限</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-warning"></i> 您暂无访问权限!</h4>
+                请联系管理员给您添加访问权限！
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/dataTables.bootstrap.min.js"></script>
+{% endblock %}

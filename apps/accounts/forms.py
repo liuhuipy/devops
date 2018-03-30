@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 
-from django.forms import ModelForm
+# from django.forms import ModelForm
 from django import forms
 from django.contrib import auth
-from accounts.models import User
+from accounts.models import User, UserGroup
 
 error_messages = {
     'username': {
@@ -43,28 +43,34 @@ class LoginForm(forms.Form):
             if self.user_cache is None:
                 raise forms.ValidationError(u'用户名或密码错误')
             elif not self.user_cache.is_active:
-                raise forms.ValidationError(u'用户已被锁定，请联系管理员解锁')
+                raise forms.ValidationError(u'用户已被锁定，请联系管理员激活')
         return self.cleaned_data
 
     def get_user(self):
         return self.user_cache
 
 
-class UserAddForm(forms.ModelForm):
+class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('username','email', 'password', 'is_active')
+        fields = ('username','email', 'password', 'phone', 'user_group', 'is_active', 'is_staff')
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control','style': 'width:300px;'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control','style': 'width:300px;'}),
-            'email': forms.EmailInput(attrs={'class': ' form-control','style': 'width:300px;'}),
-            'is_active': forms.Select(choices=((True, u'启用'),(False, u'禁用')), attrs={'class': 'form-control','style': 'width:300px;'}),
+            'username': forms.TextInput(attrs={'class': 'form-control','placeholder':'username'}),
+            'email': forms.EmailInput(attrs={'class': ' form-control', 'placeholder':'email'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control','placeholder':'password'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'phone'}),
+            'user_group': forms.Select(attrs={'class': 'form-control select2', 'multiple': 'multiple', 'data-placeholder': 'user group'}),
+            'is_active': forms.Select(choices=((True, '是'),(False, '否')), attrs={'class': 'form-control','placeholder': 'is_active'}),
+            'is_staff': forms.Select(choices=((True, '是'),(False, '否')), attrs={'class': 'form-control select2', 'placeholder': 'is_staff'})
         }
         labels = {
-            'username': u'用户名',
-            'email': u'邮箱',
-            'password': u'密码',
-            'is_active': u'状态',
+            'username': '用户名',
+            'email': '邮箱',
+            'password': '密码',
+            'phone': '电话',
+            'user_group': '用户组',
+            'is_active': '是否激活',
+            'is_staff': '是否为管理员',
         }
         error_messages = {
             'username': {
@@ -83,7 +89,7 @@ class UserAddForm(forms.ModelForm):
         }
 
     def __init__(self,*args,**kwargs):
-        super(UserAddForm,self).__init__(*args,**kwargs)
+        super(UserForm,self).__init__(*args,**kwargs)
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -96,3 +102,17 @@ class UserAddForm(forms.ModelForm):
         if len(password) < 6:
             raise forms.ValidationError(u'密码必须大于6位')
         return password
+
+
+class UserGroupForm(forms.ModelForm):
+    class Meta:
+        model = UserGroup
+        fields = ['name', 'description']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control','placeholder':'name'}),
+            'description': forms.TextInput(attrs={'class': 'form-control','placeholder':'description'}),
+        }
+        labels = {
+            'name': '用户组名',
+            'description': '描述',
+        }
