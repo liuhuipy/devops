@@ -81,7 +81,7 @@ msgstr ""
 "关。"
 
 #: forms.py:21
-msgid "Please log in again, because your session has expired."
+msgid "Please audit in again, because your session has expired."
 msgstr "请重新登录，因为你的会话已经过期。"
 
 #: forms.py:41
@@ -182,11 +182,11 @@ msgid "change message"
 msgstr "修改信息"
 
 #: models.py:164
-msgid "log entry"
+msgid "audit entry"
 msgstr "日志"
 
 #: models.py:165
-msgid "log entries"
+msgid "audit entries"
 msgstr "日志"
 
 #: models.py:173
@@ -628,7 +628,7 @@ msgid "Password reset successful"
 msgstr "密码重设成功"
 
 #: templates/xadmin/auth/password_reset/complete.html:14
-msgid "Your password has been set.  You may go ahead and log in now."
+msgid "Your password has been set.  You may go ahead and audit in now."
 msgstr "你的口令己经设置。现在你可以继续进行登录。"
 
 #: templates/xadmin/auth/password_reset/complete.html:15
@@ -1085,7 +1085,7 @@ msgid "Password"
 msgstr "密码"
 
 #: templates/xadmin/views/login.html:75
-msgid "log in"
+msgid "audit in"
 msgstr "登录"
 
 #: templates/xadmin/views/model_dashboard.html:26

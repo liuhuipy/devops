@@ -88,7 +88,7 @@ msgstr ""
 "cuenta. Note que ambos campos son sensibles a mayúsculas y minúsculas."
 
 #: forms.py:21
-msgid "Please log in again, because your session has expired."
+msgid "Please audit in again, because your session has expired."
 msgstr "Por favor, ingrese de nuevo, debido a que su sesión ha caducado."
 
 #: forms.py:41
@@ -195,12 +195,12 @@ msgstr "Cambiar %s"
 
 #: models.py:164
 #, fuzzy
-#| msgid "log in"
-msgid "log entry"
+#| msgid "audit in"
+msgid "audit entry"
 msgstr "Iniciar sesión"
 
 #: models.py:165
-msgid "log entries"
+msgid "audit entries"
 msgstr ""
 
 #: models.py:173
@@ -671,7 +671,7 @@ msgid "Password reset successful"
 msgstr "Restablecimiento de contraseña con éxito"
 
 #: templates/xadmin/auth/password_reset/complete.html:14
-msgid "Your password has been set.  You may go ahead and log in now."
+msgid "Your password has been set.  You may go ahead and audit in now."
 msgstr "Se ha establecido su contraseña. Usted puede acceder ahora mismo."
 
 #: templates/xadmin/auth/password_reset/complete.html:15
@@ -1147,7 +1147,7 @@ msgid "Password"
 msgstr "Contraseña:"
 
 #: templates/xadmin/views/login.html:75
-msgid "log in"
+msgid "audit in"
 msgstr "Iniciar sesión"
 
 #: templates/xadmin/views/model_dashboard.html:26

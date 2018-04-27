@@ -18,7 +18,7 @@ class AdminAuthenticationForm(AuthenticationForm):
     """
     this_is_the_login_form = forms.BooleanField(
         widget=forms.HiddenInput, initial=1,
-        error_messages={'required': ugettext_lazy("Please log in again, because your session has expired.")})
+        error_messages={'required': ugettext_lazy("Please audit in again, because your session has expired.")})
 
     def clean(self):
         username = self.cleaned_data.get('username')

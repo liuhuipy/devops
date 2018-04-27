@@ -11,7 +11,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-server"></i> 资产管理</a>
-            <li><a href="{% url 'idc_list' %}"> 机房</a></li>
+            <li><a href="{% url 'assets:idc_list' %}"> 机房</a></li>
             <li class="active"><a href="#">机房详情</a></li>
         </ol>
     </section>
@@ -23,7 +23,7 @@
                 <div class="box box-warning">
                     <div class="box-header with-border">
                         <h1 class="box-title" style="font-size: 25px;">{{ idc.name }}</h1>
-                        <a href="{% url 'idc_edit' idc.pk %}" class="pull-right"><button class="btn btn-primary">修改主机配置</button></a>
+                        <a href="{% url 'assets:idc_edit' idc.pk %}" class="pull-right"><button class="btn btn-primary">修改主机配置</button></a>
                     </div>
                     <div class="box-body">
                         <div class="form-horizontal">

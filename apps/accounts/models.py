@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 
+import uuid
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.contrib.auth import get_user_model
-# User = get_user_model()
 
 
 class UserGroup(models.Model):
@@ -16,13 +16,14 @@ class UserGroup(models.Model):
     class Meta:
         verbose_name = '用户组'
         verbose_name_plural = verbose_name
-        # permissions = (
-        #     ('get_usergroup', ('查看用户组')),
-        #     ('add_usergroup', ('添加用户组')),
-        #     ('edit_usergroup', ('编辑用户组')),
-        #     ('del_usergroup', ('删除用户组')),
-        # )
-        # default_permissions = ()
+        permissions = (
+            ('viewlist_usergroup', ('访问用户组列表')),
+            ('view_usergroup', ('查看用户组')),
+            ('add_usergroup', ('添加用户组')),
+            ('change_usergroup', ('编辑用户组')),
+            ('delete_usergroup', ('删除用户组')),
+        )
+        default_permissions = ()
 
     def __str__(self):
         return self.name
@@ -50,13 +51,35 @@ class User(AbstractUser):
     class Meta:
         verbose_name = '用户'
         verbose_name_plural = verbose_name
-        # permissions = (
-        #     ('get_user', ('查看用户')),
-        #     ('add_user', ('添加用户')),
-        #     ('edit_user', ('编辑用户')),
-        #     ('del_user', ('删除用户')),
-        # )
-        # default_permissions = ()
+        permissions = (
+            ('viewlist_user', ('访问用户列表')),
+            ('view_user', ('查看用户')),
+            ('add_user', ('添加用户')),
+            ('change_user', ('编辑用户')),
+            ('delete_user', ('删除用户')),
+        )
+        default_permissions = ()
 
     def __str__(self):  # __unicode__ on Python 2
         return self.username
+
+
+class UserLoginLog(models.Model):
+    """User login log"""
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, verbose_name='ID')
+    user = models.ForeignKey(User, verbose_name='用户')
+    ipaddress = models.GenericIPAddressField(verbose_name='IP地址')
+    login_time = models.DateTimeField(auto_now_add=True, verbose_name='登陆时间')
+    logout_time = models.DateTimeField(blank=True, null=True, verbose_name='登出时间')
+
+    class Meta:
+        verbose_name = '用户登陆日志'
+        verbose_name_plural = verbose_name
+        permissions = (
+            ('viewlist_userloginlog', ('访问用户登录日志列表')),
+            ('view_userloginlog', ('查看用户登录日志')),
+            ('add_userloginlog', ('添加用户登录日志')),
+            ('change_userloginlog', ('编辑用户登录日志')),
+            ('delete_userloginlog', ('删除用户登录日志')),
+        )
+        default_permissions = ()

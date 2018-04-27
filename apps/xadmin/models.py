@@ -163,8 +163,8 @@ class Log(models.Model):
     message = models.TextField(_('change message'), blank=True)
 
     class Meta:
-        verbose_name = _('log entry')
-        verbose_name_plural = _('log entries')
+        verbose_name = _('audit entry')
+        verbose_name_plural = _('audit entries')
         ordering = ('-action_time',)
 
     def __repr__(self):
@@ -184,6 +184,6 @@ class Log(models.Model):
         return self.message
 
     def get_edited_object(self):
-        "Returns the edited object represented by this log entry"
+        "Returns the edited object represented by this audit entry"
         return self.content_type.get_object_for_this_type(pk=self.object_id)
 

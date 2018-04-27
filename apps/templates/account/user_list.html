@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load mytags %}
 
 {% block css %}
     <link rel="stylesheet" href="/static/css/dataTables.bootstrap.min.css">
@@ -25,10 +26,22 @@
         <!-- Small boxes (Stat box) -->
         <div class="row">
             <div class="col-xs-12">
-                <div class="box">
+                <div class="box box-warning">
                     <div class="box-header">
-                        <a href="{% url 'user_add' %}">
-                            <button class="btn btn-success">
+                        <div class="col-md-3">
+                        <form action="{% url 'accounts:user_search' %}" method="get">
+                            <div class="input-group search-group">
+                                <input id="searchbar" class="form-control" type="text" name="q" placeholder="搜索 用户组">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                            </div>
+                        <a href="{% url 'accounts:user_add' %}">
+                            <button class="btn btn-success pull-right">
                                 <span class="glyphicon glyphicon-plus"></span>添加用户
                             </button>
                         </a>
@@ -38,11 +51,14 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
+                                <th scope="col" class="action-checkbox-column">
+                                    <input type="checkbox" id="action-toggle">
+                                </th>
                                 <th>用户名</th>
                                 <th>邮箱</th>
                                 <th>密码</th>
                                 <th>电话</th>
-                                <th>用户组</th>
+                                <th>在线</th>
                                 <th>激活</th>
                                 <th>管理员</th>
                                 <th>操作</th>
@@ -51,10 +67,14 @@
                             <tbody>
                             {% for user in user_list %}
                                 <tr>
+                                    <td class="action-checkbox">
+                                        <input class="action-select" type="checkbox" name="select_action"
+                                               value="{{ user.pk }}">
+                                    </td>
                                     <td><a style="color: #00a7d0;"
-                                           href="{% url 'user_detail' user.pk %}">{{ user.username }}</a></td>
+                                           href="{% url 'accounts:user_detail' user.pk %}">{{ user.username }}</a></td>
                                     <td><a style="color: #00a7d0;"
-                                           href="{% url 'user_detail' user.pk %}">{{ user.email }}</a></td>
+                                           href="{% url 'accounts:user_detail' user.pk %}">{{ user.email }}</a></td>
                                     <td>
                                         {{ user.password|slice:"25" }}
                                         {% if user.password|length > 25 %}
@@ -63,33 +83,35 @@
                                     </td>
                                     <td>{{ user.phone }}</td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                {{ user.user_group.all.count }}个用户组 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                {% for usergroup in user.user_group.all %}
-                                                    <li>
-                                                        <a href="{% url 'usergroup_detail' usergroup.pk %}">{{ usergroup }}</a>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    <td>{{ user.is_active }}</td>
-                                    <td>
-                                        {{ user.is_staff }}
+                                        {% if user.is_online == True %}
+                                            <span class="glyphicon glyphicon-ok" style="color: #00a65a;"></span>
+                                        {% else %}
+                                            <span class="glyphicon glyphicon-remove" style="color: #b92c28;"></span>
+                                        {% endif %}
                                     </td>
                                     <td>
-                                        <a href="{% url 'user_detail' user.pk %}">
+                                        {% if user.is_active %}
+                                            <span class="glyphicon glyphicon-ok" style="color: #00a65a;"></span>
+                                        {% else %}
+                                            <span class="glyphicon glyphicon-remove" style="color: #b92c28;"></span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if user.is_staff %}
+                                            <span class="glyphicon glyphicon-ok" style="color: #00a65a;"></span>
+                                        {% else %}
+                                            <span class="glyphicon glyphicon-remove" style="color: #b92c28;"></span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'accounts:user_detail' user.pk %}">
                                             <button class="btn btn-primary btn-xs">详情</button>
                                         </a>
-                                        <a href="{% url 'user_edit' user.pk %}">
+                                        <a href="{% url 'accounts:user_edit' user.pk %}">
                                             <button class="btn btn-warning btn-xs">编辑</button>
                                         </a>
-                                        <a href="{% url 'user_add' %}">
-                                            <button class="btn btn-success btn-xs">添加</button>
+                                        <a href="{% url 'permission:user_permission_list' user.pk %}">
+                                            <button class="btn btn-success btn-xs">权限</button>
                                         </a>
                                         <button class="btn btn-danger btn-xs" data-toggle="modal"
                                                 data-target="#{{ user.pk }}">
@@ -113,7 +135,7 @@
                                                         </p>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <form action="{% url 'user_del' user.pk %}" method="POST">
+                                                        <form action="{% url 'accounts:user_del' user.pk %}" method="POST">
                                                             {% csrf_token %}
                                                             <button type="submit" class="btn btn-danger">
                                                                 删除
@@ -134,6 +156,50 @@
                         </table>
                     </div>
                     <!-- /.box-body -->
+                    <div class="well well-sm">
+                        <input type="hidden" id="action" name="action" value=""/>
+                        <input type="hidden" id="select-across" name="select_across" value=""/>
+                        <div class="btn-group clearfix dropup">
+                            <a class="dropdown-toggle btn btn-primary" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                                <span class="action-counter">{{ user_list.count }} 个中 0 个被选</span>
+                                <span class="all" style="display: none;">选中了 11 个</span>
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+
+                                <li><a onclick="$.do_action('delete_selected');"><i class="fa fa-times"></i> 删除所选的
+                                    用户组</a></li>
+
+                            </ul>
+                        </div>
+                        <ul class="btn-group pagination pull-right" style="margin-top: 1px;">
+                            {% if page_obj.has_previous %}
+                                <li class="previous">
+                                    <a href="?page={{ page_obj.previous_page_number }}">上一页 <span class="sr-only">(current)</span></a>
+                                </li>
+                            {% else %}
+                                <li class="previous disabled">
+                                    <a>上一页 <span class="sr-only">(current)</span></a>
+                                </li>
+                            {% endif %}
+
+                            {% pagination page_obj paginator 10 4 as page_list %}
+
+                            {{ page_list|safe }}
+
+                            {% if page_obj.has_next %}
+                                <li class="next">
+                                    <a href="?page={{ page_obj.next_page_number }}">下一页 <span
+                                            class="sr-only">(current)</span></a>
+                                </li>
+                            {% else %}
+                                <li class="next disabled">
+                                    <a>下一页 <span class="sr-only">(current)</span></a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -150,11 +216,13 @@
             var $spy = $(this).scrollspy('refresh')
         });
         $(document).ready(function () {
+            $('.pagination li a').each(function () {
+                if ($(this).html() == {{ page_obj.number }}) {
+                    $(this).parent().addClass('active')
+                }
+            });
             $('#g-3').addClass('active');
             $('#g-3-1').addClass('active');
         });
-        $(function () {
-            $('#example1').DataTable();
-        })
     </script>
 {% endblock %}

@@ -9,6 +9,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from ..models import Asset, AssetGroup, IDC
 from ..serializers.host import AssetSerializer, AssetGroupSerializer, IDCSerializer
 from ..pagination import AssetsPagination
+from assets.tasks import create_or_update_asset_info
 
 
 class AssetViewSet(viewsets.ModelViewSet):
@@ -16,6 +17,10 @@ class AssetViewSet(viewsets.ModelViewSet):
     serializer_class = AssetSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     pagination_class = AssetsPagination
+
+    def perform_create(self, serializer):
+        create_or_update_asset_info(serializer)
+    
 
 
 class AssetGroupViewSet(viewsets.ModelViewSet):

@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% load myfilter %}
+{% load mytags %}
 
 {% block css %}
     <link rel="stylesheet" href="/static/css/dataTables.bootstrap.min.css">
+    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet" />
     <style>
         .scroll {
             position: relative;
@@ -26,7 +28,7 @@
         <!-- Small boxes (Stat box) -->
         <div class="row">
             <div class="col-xs-12">
-                <div class="box">
+                <div class="box box-warning">
                     <div class="box-header">
                         <a href="">
                             用户权限
@@ -37,72 +39,48 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>权限名称</th>
-                                <th>资产</th>
-                                <th>资产组</th>
+                                <th>对象名称</th>
                                 <th>查看</th>
                                 <th>添加</th>
                                 <th>更新</th>
                                 <th>删除</th>
+                                <th>访问对象列表</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for permission in user_permission_list %}
+                            {% for key, permission in user_permission_list.items %}
                                 <tr>
-                                    <td>{{ permission.name }}</td>
+                                    <td>{{ key }}</td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                {{ permission.assets.all.count }}个 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                {% for asset in permission.assets.all %}
-                                                    <li>
-                                                        <a href="{% url 'asset_detail' asset.pk %}">{{ asset }}</a>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                {{ permission.asset_groups.all.count }}个 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                {% for asset_group in permission.asset_groups.all %}
-                                                    <li>
-                                                        <a href="{% url 'assetgroup_detail' asset_group.pk %}">{{ asset_group }}</a>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {% if permission.can_view %}
+                                        {% if 'view' in permission %}
                                             <span class="glyphicon glyphicon-ok" style="color: #00a65a;"></span>
                                         {% else %}
                                             <span class="glyphicon glyphicon-remove" style="color: #b92c28;"></span>
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {% if permission.can_add %}
+                                        {% if 'add' in permission %}
                                             <span class="glyphicon glyphicon-ok" style="color: #00a65a;"></span>
                                         {% else %}
                                             <span class="glyphicon glyphicon-remove" style="color: #b92c28;"></span>
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {% if permission.can_change %}
+                                        {% if 'change' in permission %}
                                             <span class="glyphicon glyphicon-ok" style="color: #00a65a;"></span>
                                         {% else %}
                                             <span class="glyphicon glyphicon-remove" style="color: #b92c28;"></span>
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {% if permission.can_delete %}
+                                        {% if 'delete' in permission %}
+                                            <span class="glyphicon glyphicon-ok" style="color: #00a65a;"></span>
+                                        {% else %}
+                                            <span class="glyphicon glyphicon-remove" style="color: #b92c28;"></span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if 'viewlist' in permission %}
                                             <span class="glyphicon glyphicon-ok" style="color: #00a65a;"></span>
                                         {% else %}
                                             <span class="glyphicon glyphicon-remove" style="color: #b92c28;"></span>
@@ -113,6 +91,51 @@
                         </table>
                     </div>
                     <!-- /.box-body -->
+                    <div class="well well-sm">
+                        <input type="hidden" id="action" name="action" value=""/>
+                        <input type="hidden" id="select-across" name="select_across" value=""/>
+                        <div class="btn-group clearfix dropup">
+                            <a class="dropdown-toggle btn btn-primary" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                                <span class="action-counter">{{ user_permission_list.count }} 个中 0 个被选</span>
+                                <span class="all" style="display: none;">选中了 11 个</span>
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+
+                                <li><a onclick="$.do_action('delete_selected');"><i class="fa fa-times"></i> 删除所选的
+                                    用户组</a></li>
+
+                            </ul>
+                        </div>
+                        <script>var _actions_icnt = "11";</script>
+                        <ul class="btn-group pagination">
+                            {% if page_obj.has_previous %}
+                                <li class="previous">
+                                    <a href="?page={{ page_obj.previous_page_number }}">上一页 <span class="sr-only">(current)</span></a>
+                                </li>
+                            {% else %}
+                                <li class="previous disabled">
+                                    <a>上一页 <span class="sr-only">(current)</span></a>
+                                </li>
+                            {% endif %}
+
+                            {% pagination page_obj paginator 10 4 as page_list %}
+
+                            {{ page_list|safe }}
+
+                            {% if page_obj.has_next %}
+                                <li class="next">
+                                    <a href="?page={{ page_obj.next_page_number }}">下一页 <span
+                                            class="sr-only">(current)</span></a>
+                                </li>
+                            {% else %}
+                                <li class="next disabled">
+                                    <a>下一页 <span class="sr-only">(current)</span></a>
+                                </li>
+                            {% endif %}
+                        </ul>
+
+                    </div>
                 </div>
             </div>
 
@@ -130,11 +153,13 @@
             var $spy = $(this).scrollspy('refresh')
         });
         $(document).ready(function () {
+            $('.pagination li a').each(function () {
+                if ($(this).html() == {{ page_obj.number }}) {
+                    $(this).parent().addClass('active')
+                }
+            });
             $('#g-4').addClass('active');
             $('#g-4-1').addClass('active');
         });
-        $(function () {
-            $('#example1').DataTable();
-        })
     </script>
 {% endblock %}

@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
+{% load mytags %}
 
 {% block css %}
     <link rel="stylesheet" href="/static/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/table.css">
+    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet" />
+
     <style>
         .scroll {
             position: relative;
@@ -25,10 +29,37 @@
         <!-- Small boxes (Stat box) -->
         <div class="row">
             <div class="col-xs-12">
-                <div class="box">
+                <div class="box box-warning">
                     <div class="box-header">
-                        <a href="{% url 'usergroup_add' %}">
-                            <button class="btn btn-success">
+                        <!-- Single button -->
+                        <div class="btn-group col-md-1">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false" style="color: #5bc0de">
+                                  {{ paginate_by }}     <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">5</a></li>
+                                <li><a href="#">10</a></li>
+                                <li><a href="#">20</a></li>
+                                <li><a href="#">50</a></li>
+                                <li><a href="#">100</a></li>
+                            </ul>
+
+                        </div>
+                        <div class="col-md-3">
+                        <form action="{% url 'accounts:usergroup_search' %}" method="get">
+                            <div class="input-group search-group">
+                                <input id="searchbar" class="form-control" type="text" name="q" placeholder="搜索 用户组">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                            </div>
+                        <a href="{% url 'accounts:usergroup_add' %}">
+                            <button class="btn btn-success pull-right">
                                 <span class="glyphicon glyphicon-plus"></span>添加用户组
                             </button>
                         </a>
@@ -38,16 +69,25 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
+                                <th scope="col" class="action-checkbox-column">
+                                    <input type="checkbox" id="action-toggle">
+                                </th>
                                 <th>用户组名</th>
                                 <th>描述</th>
+                                <th>创建时间</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for usergroup in usergroup_list %}
                                 <tr>
+                                    <td class="action-checkbox">
+                                        <input class="action-select" type="checkbox" name="select_action"
+                                               value="{{ usergroup.pk }}">
+                                    </td>
                                     <td><a style="color: #00a7d0;"
-                                           href="{% url 'usergroup_detail' usergroup.pk %}">{{ usergroup.name }}</a></td>
+                                           href="{% url 'accounts:usergroup_detail' usergroup.pk %}">{{ usergroup.name }}</a>
+                                    </td>
                                     <td>
                                         {{ usergroup.description|slice:"60" }}
                                         {% if usergroup.description|length > 60 %}
@@ -55,13 +95,16 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        <a href="{% url 'usergroup_detail' usergroup.pk %}">
+                                        {{ usergroup.create_time }}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'accounts:usergroup_detail' usergroup.pk %}">
                                             <button class="btn btn-primary btn-xs">详情</button>
                                         </a>
-                                        <a href="{% url 'usergroup_edit' usergroup.pk %}">
+                                        <a href="{% url 'accounts:usergroup_edit' usergroup.pk %}">
                                             <button class="btn btn-warning btn-xs">编辑</button>
                                         </a>
-                                        <a href="{% url 'usergroup_add' %}">
+                                        <a href="{% url 'accounts:usergroup_add' %}">
                                             <button class="btn btn-success btn-xs">添加</button>
                                         </a>
                                         <button class="btn btn-danger btn-xs" data-toggle="modal"
@@ -76,7 +119,8 @@
                                                         <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
                                                             <span aria-hidden="true">&times;</span></button>
-                                                        <h4 class="modal-title" id="myModalLabel" style="color: #953b39;">用户组删除</h4>
+                                                        <h4 class="modal-title" id="myModalLabel"
+                                                            style="color: #953b39;">用户组删除</h4>
                                                     </div>
                                                     <div class="modal-body">
                                                         <p>
@@ -85,7 +129,8 @@
                                                         </p>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <form action="{% url 'usergroup_del' usergroup.pk %}" method="POST">
+                                                        <form action="{% url 'accounts:usergroup_del' usergroup.pk %}"
+                                                              method="POST">
                                                             {% csrf_token %}
                                                             <button type="submit" class="btn btn-danger">
                                                                 删除
@@ -106,6 +151,50 @@
                         </table>
                     </div>
                     <!-- /.box-body -->
+
+                    <div class="well well-sm">
+                        <input type="hidden" id="action" name="action" value=""/>
+                        <input type="hidden" id="select-across" name="select_across" value=""/>
+                        <div class="btn-group clearfix dropup">
+                            <a class="dropdown-toggle btn btn-primary" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                                <span class="action-counter">{{ usergroup_list.count }} 个中 0 个被选</span>
+                                <span class="all" style="display: none;">选中了 11 个</span>
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+
+                                <li><a onclick="$.do_action('delete_selected');"><i class="fa fa-times"></i> 删除所选的
+                                    用户组</a></li>
+
+                            </ul>
+                        </div>
+                        <ul class="btn-group pagination pull-right" style="margin-top: 1px;">
+                            {% if page_obj.has_previous %}
+                                <li class="previous">
+                                    <a href="?page={{ page_obj.previous_page_number }}">上一页 <span class="sr-only">(current)</span></a>
+                                </li>
+                            {% else %}
+                                <li class="previous disabled">
+                                    <a>上一页 <span class="sr-only">(current)</span></a>
+                                </li>
+                            {% endif %}
+
+                            {% pagination page_obj paginator 10 4 as page_list %}
+
+                            {{ page_list|safe }}
+
+                            {% if page_obj.has_next %}
+                                <li class="next">
+                                    <a href="?page={{ page_obj.next_page_number }}">下一页 <span
+                                            class="sr-only">(current)</span></a>
+                                </li>
+                            {% else %}
+                                <li class="next disabled">
+                                    <a>下一页 <span class="sr-only">(current)</span></a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -122,11 +211,14 @@
             var $spy = $(this).scrollspy('refresh')
         });
         $(document).ready(function () {
+            $('.pagination li a').each(function () {
+                if ($(this).html() == {{ page_obj.number }}) {
+                    $(this).parent().addClass('active')
+                }
+            });
             $('#g-3').addClass('active');
             $('#g-3-2').addClass('active');
         });
-        $(function () {
-            $('#example1').DataTable();
-        })
+
     </script>
 {% endblock %}

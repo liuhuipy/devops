@@ -5,12 +5,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView, View
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 from accounts.models import User
 from accounts.forms import LoginForm, UserForm
-from utils.mixins import BaseMixin, ViewPermissionListMixin, ActionPermissionRequiredMixin
+from utils.mixins import BaseMixin, ActionPermissionRequiredMixin
 
 
 class LoginView(FormView):
@@ -39,25 +39,30 @@ class LoginView(FormView):
 class LogoutView(LoginRequiredMixin, View):
     def get(self, request):
         auth_logout(request)
-        return redirect('login')
+        return redirect('accounts:login')
 
 
-class UserListView(ViewPermissionListMixin, ListView):
+class UserListView(BaseMixin, ActionPermissionRequiredMixin, ListView):
     model = User
     template_name = 'account/user_list.html'
-    # context_object_name = 'user_list'
+    context_object_name = 'user_list'
+    permission_required = 'accounts.viewlist_user'
+    paginate_by = 10
+
+    def get_queryset(self):
+        user_list = User.objects.order_by('-create_time')
+        return user_list
 
     def get_context_data(self, **kwargs):
-        user_list = User.objects.order_by('-create_time')
-        kwargs['user_list'] = user_list
+        kwargs['paginate_by'] = self.paginate_by
         return super(UserListView, self).get_context_data(**kwargs)
 
 
 class UserAddView(BaseMixin, ActionPermissionRequiredMixin, CreateView):
     template_name = 'account/user_add.html'
     form_class = UserForm
-    permission_required = 'assets.add_user'
-    success_url = reverse_lazy('user_list')
+    permission_required = 'accounts.add_user'
+    success_url = reverse_lazy('accounts:user_list')
     success_message = '用户添加成功！'
 
     def form_valid(self, form):
@@ -70,7 +75,7 @@ class UserAddView(BaseMixin, ActionPermissionRequiredMixin, CreateView):
 class UserDetailView(BaseMixin, ActionPermissionRequiredMixin, DetailView):
     model = User
     template_name = 'account/user_detail.html'
-    permission_required = 'assets.get_user'
+    permission_required = 'accounts.view_user'
     context_object_name = 'user'
     pk_url_kwarg = 'user_id'
 
@@ -80,17 +85,26 @@ class UserUpdateView(BaseMixin, ActionPermissionRequiredMixin, UpdateView):
     template_name = 'account/user_edit.html'
     form_class = UserForm
     pk_url_kwarg = 'user_id'
-    permission_required = 'assets.change_user'
-    success_url = reverse_lazy('user_list')
+    permission_required = 'accounts.change_user'
+    success_url = reverse_lazy('accounts:user_list')
     success_message = '修改用户信息成功！'
 
 
 class UserDelView(BaseMixin, ActionPermissionRequiredMixin, DeleteView):
     model = User
     pk_url_kwarg = 'user_id'
-    permission_required = 'assets.delete_user'
-    success_url = reverse_lazy('user_list')
+    permission_required = 'accounts.delete_user'
+    success_url = reverse_lazy('accounts:user_list')
 
 
+class SearchUserView(UserListView):
+
+    def get_queryset(self):
+        q = self.request.GET.get('q', '')
+        if q:
+            usergroup_list = User.objects.filter(Q(username__contains=q)).order_by('-create_time')
+        else:
+            usergroup_list = User.objects.order_by('-create_time')
+        return usergroup_list
 
 

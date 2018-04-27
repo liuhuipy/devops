@@ -83,7 +83,7 @@ msgstr ""
 "beiden Feldern."
 
 #: forms.py:21
-msgid "Please log in again, because your session has expired."
+msgid "Please audit in again, because your session has expired."
 msgstr "Ihre Sitzung ist abgelaufen - bitte melden Sie sich erneut an."
 
 #: forms.py:41
@@ -189,12 +189,12 @@ msgstr "Ändern %s"
 
 #: models.py:164
 #, fuzzy
-#| msgid "log in"
-msgid "log entry"
+#| msgid "audit in"
+msgid "audit entry"
 msgstr "einloggen"
 
 #: models.py:165
-msgid "log entries"
+msgid "audit entries"
 msgstr ""
 
 #: models.py:173
@@ -655,7 +655,7 @@ msgid "Password reset successful"
 msgstr "Passwort erfolgreich zurückgesetzt"
 
 #: templates/xadmin/auth/password_reset/complete.html:14
-msgid "Your password has been set.  You may go ahead and log in now."
+msgid "Your password has been set.  You may go ahead and audit in now."
 msgstr "Ihr Passwort wurde gesetzt. Sie können fortfahren und sich einloggen."
 
 #: templates/xadmin/auth/password_reset/complete.html:15
@@ -1124,7 +1124,7 @@ msgid "Password"
 msgstr "Passwort"
 
 #: templates/xadmin/views/login.html:75
-msgid "log in"
+msgid "audit in"
 msgstr "einloggen"
 
 #: templates/xadmin/views/model_dashboard.html:26

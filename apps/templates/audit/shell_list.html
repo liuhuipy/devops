@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load mytags %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/dataTables.bootstrap.min.css">
+    <style>
+        .scroll {
+            position: relative;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>
+            命令列表
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-server"></i> 日志审计</a>
+            <li><a href="#"> 命令日志</a></li>
+            <li class="active"><a href="#">命令列表</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-warning">
+                    <div class="box-header">
+                        <div class="col-md-3">
+                        <form action="" method="get">
+{#                            {% csrf_token %}#}
+                            <div class="input-group search-group">
+                                <input id="searchbar" class="form-control" type="text" name="q" placeholder="搜索 用户组">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                            </div>
+                        <a href="">
+                            <button class="btn btn-success pull-right">
+                                <span class="glyphicon glyphicon-plus"></span>添加主机
+                            </button>
+                        </a>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col" class="action-checkbox-column">
+                                    <input type="checkbox" id="action-toggle">
+                                </th>
+                                <th>执行人</th>
+                                <th>命令</th>
+                                <th>执行时间</th>
+                                <th>主机资产</th>
+                                <th>主机资产组</th>
+{#                                <th>返回结果</th>#}
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for shell in shell_list %}
+                                <tr>
+                                    <td class="action-checkbox">
+                                        <input class="action-select" type="checkbox" name="select_action"
+                                               value="{{ shell.pk }}">
+                                    </td>
+                                    <td><a style="color: #00a7d0;"
+                                           href="{% url 'accounts:user_detail' shell.user.pk %}">{{ shell.user.username }}</a></td>
+                                    <td>{{ shell.shell }}</td>
+                                    <td>{{ shell.exec_time }}</td>
+                                    <td>{{ shell.assets }}</td>
+                                    <td>{{ shell.asset_groups }}</td>
+{#                                    <td>{{ shell.res }}</td>#}
+                                    <td>
+                                        <a href="">
+                                            <button class="btn btn-primary btn-xs">详情</button>
+                                        </a>
+                                        <button class="btn btn-danger btn-xs" data-toggle="modal"
+                                                data-target="#{{ shell.pk }}">
+                                            删除
+                                        </button>
+                                        <div class="modal fade" id="{{ shell.pk }}" tabindex="-1" role="dialog"
+                                             aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel"
+                                                            style="color: #953b39;">资产删除</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>
+                                                            确定要删除该命令记录
+                                                            <a href="">{{ shell.user.username }} - {{ shell.shell }}</a>？
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form action="{% url 'audit:shell_del' shell.pk %}" method="POST">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-danger">
+                                                                删除
+                                                            </button>
+                                                            <button type="button" class="btn btn-default"
+                                                                    data-dismiss="modal">取消
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="well well-sm">
+                        <input type="hidden" id="action" name="action" value=""/>
+                        <input type="hidden" id="select-across" name="select_across" value=""/>
+                        <div class="btn-group clearfix dropup">
+                            <a class="dropdown-toggle btn btn-primary" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                                <span class="action-counter">{{ shell_list.count }} 个中 0 个被选</span>
+                                <span class="all" style="display: none;">选中了 11 个</span>
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+
+                                <li><a onclick="$.do_action('delete_selected');"><i class="fa fa-times"></i> 删除所选的
+                                    用户组</a></li>
+
+                            </ul>
+                        </div>
+                        <ul class="btn-group pagination pull-right" style="margin-top: 1px;">
+                            {% if page_obj.has_previous %}
+                                <li class="previous">
+                                    <a href="?page={{ page_obj.previous_page_number }}">上一页 <span class="sr-only">(current)</span></a>
+                                </li>
+                            {% else %}
+                                <li class="previous disabled">
+                                    <a>上一页 <span class="sr-only">(current)</span></a>
+                                </li>
+                            {% endif %}
+
+                            {% pagination page_obj paginator 7 3 as page_list %}
+
+                            {{ page_list|safe }}
+
+                            {% if page_obj.has_next %}
+                                <li class="next">
+                                    <a href="?page={{ page_obj.next_page_number }}">下一页 <span
+                                            class="sr-only">(current)</span></a>
+                                </li>
+                            {% else %}
+                                <li class="next disabled">
+                                    <a>下一页 <span class="sr-only">(current)</span></a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/dataTables.bootstrap.min.js"></script>
+    <script>
+        $('.scroll').scrollspy({target: '#navbar-example'});
+        $('[data-spy="scroll"]').each(function () {
+            var $spy = $(this).scrollspy('refresh')
+        });
+        $(document).ready(function () {
+            $('.pagination li a').each(function () {
+                if ($(this).html() == {{ page_obj.number }}) {
+                    $(this).parent().addClass('active')
+                }
+            });
+            $('#g-6').addClass('active');
+            $('#g-6-3').addClass('active');
+        });
+    </script>
+{% endblock %}

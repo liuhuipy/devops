@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 import configparser
 
+import djcelery
+djcelery.setup_loader()
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 config = configparser.ConfigParser()
@@ -44,16 +47,17 @@ INSTALLED_APPS = [
     'accounts',
     'assets',
     'permission',
+    'ops',
+    'audit',
     'dashboard',
     'rest_framework',
     'rest_framework_docs',
-    # 'corsheaders'
+    'djcelery',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -134,12 +138,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+MEDIA_URL = '/data/'
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'data')
+
 
 PAGE_NUM = 10
 
@@ -159,6 +164,17 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'assets.pagination.AssetsPagination',
     'HIDE_DOCS': True,
 }
+
+
+# celery configuation
+BROKER_URL = 'redis://172.16.162.138:6379/0'
+CELERY_RESULT_BACKEND = 'redis://172.16.162.138:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+CELERY_TIMEZONE = 'Asia/Shanghai'
+
 
 # logging配置
 LOGGING = {

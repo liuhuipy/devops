@@ -4,7 +4,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import AccessMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import Permission
-from django.shortcuts import redirect
+from django.shortcuts import redirect,HttpResponseRedirect
+from django.urls import reverse
 
 from assets.models import IDC, Asset, AssetGroup
 from accounts.models import User
@@ -24,22 +25,18 @@ class BaseMixin(LoginRequiredMixin):
         return context
 
 
-class ViewPermissionListMixin(BaseMixin, AccessMixin):
-    """
-    CBV mixin which verifies that the current user is staff or superuser.
-    """
-    def dispatch(self, request, *args, **kwargs):
-        if not (request.user.is_staff or request.user.is_superuser):
-            return redirect('no_view_permission')
-        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
-
-
 class ActionPermissionRequiredMixin(PermissionRequiredMixin):
     """
     CBV mixin which verifies that the current user has all specified
     permissions.
     """
     def dispatch(self, request, *args, **kwargs):
-        if not self.has_permission():
-            return redirect('no_action_permission')
+        try:
+            pk = self.kwargs.get(self.pk_url_kwarg)
+            if not self.has_permission() and not request.user.is_staff and not request.user.is_superuser \
+                    and str(request.user.id) != pk:
+                return HttpResponseRedirect(reverse('permission:no_action_permission'))
+        except:
+            if not self.has_permission() and not request.user.is_staff and not request.user.is_superuser:
+                return HttpResponseRedirect(reverse('permission:no_action_permission'))
         return super(PermissionRequiredMixin, self).dispatch(request, *args, **kwargs)

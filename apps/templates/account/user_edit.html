@@ -11,7 +11,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-server"></i> 用户管理</a>
-            <li><a href="{% url 'user_list' %}"> 用户</a></li>
+            <li><a href="{% url 'accounts:user_list' %}"> 用户</a></li>
             <li class="active"><a href="#">用户修改</a></li>
         </ol>
     </section>
@@ -27,7 +27,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <form action="{% url 'user_edit' user.pk %}" class="form-horizontal" method="POST">
+                        <form action="{% url 'accounts:user_edit' user.pk %}" class="form-horizontal" method="POST">
                             <!-- text input -->
                             {% csrf_token %}
                             {% for user_val in form %}

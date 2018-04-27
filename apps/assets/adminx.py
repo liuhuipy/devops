@@ -11,10 +11,10 @@ class IDCAdmin:
 
 
 class AssetAdmin:
-    list_display = ('asset_name','manage_ipaddress','asset_type','macaddress','sn','asset_group','idc','status')
+    list_display = ('id', 'asset_name','manage_ipaddress','asset_type','macaddress','sn','asset_group','idc','status')
     search_fields = ('asset_name','manage_ipaddress','asset_type','macaddress','sn','asset_group','idc','status')
     list_filter = ('asset_name','manage_ipaddress','asset_type','macaddress','sn','asset_group','idc','status')
-    style_fields = {'content': 'ueditor', 'asset_group': 'm2m_transfer'}
+    style_fields = {'asset_group': 'm2m_transfer'}
 
 
 class AssetGroupAdmin:
@@ -26,4 +26,3 @@ class AssetGroupAdmin:
 xadmin.site.register(IDC, IDCAdmin)
 xadmin.site.register(Asset, AssetAdmin)
 xadmin.site.register(AssetGroup, AssetGroupAdmin)
-# xadmin.site.register(Disk, DiskAdmin)

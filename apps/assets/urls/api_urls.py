@@ -11,6 +11,7 @@ router = routers.DefaultRouter()
 router.register(r'assets', AssetViewSet, base_name='assets')
 router.register(r'assetgroups', AssetGroupViewSet, base_name='assetgroups')
 router.register(r'idcs', IDCViewSet, base_name='idcs')
+# router.register(r'report', AssetReport, base_name='asset-report')
 
 
 urlpatterns = [

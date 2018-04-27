@@ -16415,7 +16415,7 @@ var tooltip = $.widget( "ui.tooltip", {
 
 		// Support: Voiceover on OS X, JAWS on IE <= 9
 		// JAWS announces deletions even when aria-relevant="additions"
-		// Voiceover will sometimes re-read the entire log region's contents from the beginning
+		// Voiceover will sometimes re-read the entire audit region's contents from the beginning
 		this.liveRegion.children().hide();
 		if ( content.clone ) {
 			a11yContent = content.clone();

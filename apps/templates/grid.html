@@ -20,19 +20,19 @@
         </a>
         <ul class="treeview-menu">
             <li id="g-2-1">
-                <a href="{% url 'asset_list' %}">
+                <a href="{% url 'assets:asset_list' %}">
                     <i class="fa fa-circle-o"></i> 资产
                     <span class="label label-info pull-right">{{ asset_count }}</span>
                 </a>
             </li>
             <li id="g-2-2">
-                <a href="{% url 'assetgroup_list' %}">
+                <a href="{% url 'assets:assetgroup_list' %}">
                     <i class="fa fa-circle-o"></i> 资产组
                     <span class="label label-info pull-right">{{ assetgroup_count }}</span>
                 </a>
             </li>
             <li id="g-2-3">
-                <a href="{% url 'idc_list' %}">
+                <a href="{% url 'assets:idc_list' %}">
                     <i class="fa fa-circle-o"></i> 机房管理
                     <span class="label label-info pull-right">{{ idc_count }}</span>
                 </a>
@@ -46,13 +46,13 @@
         </a>
         <ul class="treeview-menu">
             <li id="g-3-1">
-                <a href="{% url 'user_list' %}">
+                <a href="{% url 'accounts:user_list' %}">
                     <i class="fa fa-user-circle-o"></i> 用户
                     <span class="label label-info pull-right">{{ user_count }}</span>
                 </a>
             </li>
             <li id="g-3-2">
-                <a href="{% url 'usergroup_list' %}">
+                <a href="{% url 'accounts:usergroup_list' %}">
                     <i class="fa fa-circle-o"></i> 用户组
                     <span class="label label-info pull-right">{{ usergroup_count }}</span>
                 </a>
@@ -66,12 +66,12 @@
         </a>
         <ul class="treeview-menu">
             <li id="g-4-1">
-                <a href="{% url 'user_permission_list' user.pk %}">
+                <a href="{% url 'permission:user_permission_list' user.pk %}">
                     <i class="fa fa-circle-o"></i> 我的权限
                 </a>
             </li>
             <li id="g-4-2">
-                <a href="{% url 'action_permission_list' %}">
+                <a href="{% url 'permission:action_permission_list' %}">
                     <i class="fa fa-circle-o"></i> 权限列表
                     <span class="label label-primary pull-right">{{ permission_count }}</span>
                 </a>
@@ -80,19 +80,43 @@
     </li>
     <li class="treeview" id="g-5">
         <a href="#">
-            <i class="fa fa-file-zip-o" aria-hidden="true"></i>
-            <span>日志</span>
-            <span class="label label-primary pull-right">3</span>
+            <i class="fa fa-cogs" aria-hidden="true"></i>
+            <span>任务编排</span>
         </a>
         <ul class="treeview-menu">
             <li id="g-5-1">
-                <a href="">
-                    <i class="fa fa-circle-o"></i> 用户日志
+                <a href="{% url 'ops:shell_exec'%}">
+                    <i class="fa fa-circle-o"></i> 批量执行
                 </a>
             </li>
             <li id="g-5-2">
                 <a href="">
+                    <i class="fa fa-circle-o"></i> 定时任务
+                    <span class="label label-primary pull-right">{{ permission_count }}</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="treeview" id="g-6">
+        <a href="#">
+            <i class="fa fa-file-zip-o" aria-hidden="true"></i>
+            <span>日志审计</span>
+            <span class="label label-primary pull-right">3</span>
+        </a>
+        <ul class="treeview-menu">
+            <li id="g-6-1">
+                <a href="">
+                    <i class="fa fa-circle-o"></i> 用户日志
+                </a>
+            </li>
+            <li id="g-6-2">
+                <a href="">
                     <i class="fa fa-circle-o"></i> 资产日志
+                </a>
+            </li>
+            <li id="g-6-3">
+                <a href="{% url 'audit:shell_list' %}">
+                    <i class="fa fa-circle-o"></i> 命令记录
                 </a>
             </li>
         </ul>

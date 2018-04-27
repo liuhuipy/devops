@@ -83,7 +83,7 @@ msgstr ""
 "pessoal. Perceba que ambos os campos são case-sensitive."
 
 #: forms.py:21
-msgid "Please log in again, because your session has expired."
+msgid "Please audit in again, because your session has expired."
 msgstr "Por favor faça login novamente, porque a sua sessão expirou."
 
 #: forms.py:41
@@ -190,12 +190,12 @@ msgstr "Alterar %s"
 
 #: models.py:164
 #, fuzzy
-#| msgid "log in"
-msgid "log entry"
+#| msgid "audit in"
+msgid "audit entry"
 msgstr "Entrar"
 
 #: models.py:165
-msgid "log entries"
+msgid "audit entries"
 msgstr ""
 
 #: models.py:173
@@ -660,7 +660,7 @@ msgid "Password reset successful"
 msgstr "Redefinição de senha completada."
 
 #: templates/xadmin/auth/password_reset/complete.html:14
-msgid "Your password has been set.  You may go ahead and log in now."
+msgid "Your password has been set.  You may go ahead and audit in now."
 msgstr "Sua senha foi definida. Você pode seguir e entrar agora."
 
 #: templates/xadmin/auth/password_reset/complete.html:15
@@ -1130,7 +1130,7 @@ msgid "Password"
 msgstr "Senha"
 
 #: templates/xadmin/views/login.html:75
-msgid "log in"
+msgid "audit in"
 msgstr "Entrar"
 
 #: templates/xadmin/views/model_dashboard.html:26

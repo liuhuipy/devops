@@ -37,7 +37,7 @@
     <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
 
-        <form action="{% url 'login' %}" method="post">
+        <form action="{% url 'accounts:login' %}" method="post">
             {% csrf_token %}
             <div class="form-group has-feedback">
                 <input type="text" name="username" class="form-control" placeholder="Username">

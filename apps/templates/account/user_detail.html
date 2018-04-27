@@ -11,7 +11,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-server"></i> 用户管理</a>
-            <li><a href="{% url 'user_list' %}"> 用户</a></li>
+            <li><a href="{% url 'accounts:user_list' %}"> 用户</a></li>
             <li class="active"><a href="#">用户详情</a></li>
         </ol>
     </section>
@@ -23,7 +23,7 @@
                 <div class="box box-warning">
                     <div class="box-header with-border">
                         <h1 class="box-title" style="font-size: 25px;">{{ user.username }}</h1>
-                        <a href="{% url 'user_edit' user.pk %}" class="pull-right"><button class="btn btn-primary">修改用户信息</button></a>
+                        <a href="{% url 'accounts:user_edit' user.pk %}" class="pull-right"><button class="btn btn-primary">修改用户信息</button></a>
                     </div>
                     <div class="box-body">
                         <div class="form-horizontal">

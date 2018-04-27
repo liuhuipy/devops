@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'asset/detail/(?P<asset_id>[0-9a-zA-Z\-]{36})/$', asset.AssetDetailView.as_view(), name='asset_detail'),
     url(r'asset/edit/(?P<asset_id>[0-9a-zA-Z\-]{36})/$', asset.AssetUpdateView.as_view(), name='asset_edit'),
     url(r'asset/del/(?P<asset_id>[0-9a-zA-Z\-]{36})/$', asset.AssetDelView.as_view(), name='asset_del'),
+    url(r'asset/search/$', asset.SearchAssetView.as_view(), name='asset_search'),
 
     # hostgroup action url
     url(r'Assetgroup/list/$', assetgroup.AssetGroupListView.as_view(), name='assetgroup_list'),

@@ -1,48 +1,30 @@
 # -*- coding:utf-8 -*-
 
 from django import forms
+from django.forms.widgets import *
 
-from ops.models import AnsibleScript, AnsibleExecPlaybook
-
-
-
-class AnsibleScriptForm(forms.ModelForm):
-
-    class Meta:
-        model = AnsibleScript
-        fields = ['assets', 'asset_groups', 'shell', 'script']
-        widgets = {
-            'assets': forms.Select(attrs={'class': 'form-control select2', 'multiple': 'multiple',
-                                         'data-placeholder': 'assets'}),
-            'asset_groups': forms.Select(attrs={'class': 'form-control select2', 'multiple': 'multiple',
-                                                'data-placeholder': 'asset_groups'}),
-            'shell': forms.TextInput(attrs={'class': 'form-control','placeholder': 'shell'}),
-            'script': forms.Textarea(attrs={'class': 'form-control','placeholder': '不填默认仅执行一条命令'}),
-        }
-        labels = {
-            'assets': '选择主机',
-            'asset_groups': '选择主机组',
-            'shell': '命令',
-            'script': '请填入脚本',
-        }
+from ops.models import AnsibleExecShellLog
 
 
-class AnsibleExecPlaybookForm(forms.ModelForm):
+class AnsibleShellExecForm(forms.ModelForm):
 
     class Meta:
-        model = AnsibleExecPlaybook
-        fields = ['assets', 'asset_groups', 'playbook_shell', 'playbook_yaml_name']
+        model = AnsibleExecShellLog
+        fields = ['assets', 'asset_groups', 'shell']
         widgets = {
-            'assets': forms.Select(attrs={'class': 'form-control select2', 'multiple': 'multiple',
+            'assets': Select(attrs={'class': 'form-control select2', 'id': 'assets', 'multiple': 'multiple',
                                           'data-placeholder': 'assets'}),
-            'asset_groups': forms.Select(attrs={'class': 'form-control select2', 'multiple': 'multiple',
-                                                'data-placeholder': 'asset_groups'}),
-            'playbook_shell': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'playbook_shell'}),
-            'playbook_yaml_name': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'yaml_url'}),
+            'asset_groups': Select(attrs={'class': 'form-control select2', 'id': 'asset_groups', 'multiple': 'multiple',
+                                                'data-placeholder': 'asset groups'}),
+            'shell': TextInput(attrs={'class': 'form-control', 'id': 'shell','placeholder':'shell'}),
+            # 'result': Textarea(attrs={'class': 'form-control', 'id': 'res', 'rows':'10', 'style':'background-color: black; color: #00a157;'})
         }
         labels = {
-            'assets': '选择主机',
-            'asset_groups': '选择主机组',
-            'playbook_shell': '命令',
-            'playbook_yaml_name': '请填入ansible yaml入口路径',
+            'assets': '选择资产',
+            'asset_groups': '选择资产组',
+            'shell': '命令',
+            # 'result': '返回结果',
         }
+
+
+

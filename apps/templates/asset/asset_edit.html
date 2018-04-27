@@ -11,7 +11,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-server"></i> 资产管理</a>
-            <li><a href="{% url 'asset_list' %}"> 资产</a></li>
+            <li><a href="{% url 'assets:asset_list' %}"> 资产</a></li>
             <li class="active"><a href="#">资产修改</a></li>
         </ol>
     </section>
@@ -27,7 +27,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <form action="{% url 'asset_edit' asset.pk %}" class="form-horizontal" method="POST">
+                        <form action="{% url 'assets:asset_edit' asset.pk %}" class="form-horizontal" method="POST">
                             <!-- text input -->
                             {% csrf_token %}
                             {% for asset_val in form %}

@@ -77,7 +77,7 @@ msgid ""
 msgstr ""
 
 #: forms.py:21
-msgid "Please log in again, because your session has expired."
+msgid "Please audit in again, because your session has expired."
 msgstr ""
 
 #: forms.py:41
@@ -178,11 +178,11 @@ msgid "change message"
 msgstr ""
 
 #: models.py:164
-msgid "log entry"
+msgid "audit entry"
 msgstr ""
 
 #: models.py:165
-msgid "log entries"
+msgid "audit entries"
 msgstr ""
 
 #: models.py:173
@@ -630,7 +630,7 @@ msgid "Password reset successful"
 msgstr ""
 
 #: templates/xadmin/auth/password_reset/complete.html:14
-msgid "Your password has been set.  You may go ahead and log in now."
+msgid "Your password has been set.  You may go ahead and audit in now."
 msgstr ""
 
 #: templates/xadmin/auth/password_reset/complete.html:15
@@ -1083,7 +1083,7 @@ msgid "Password"
 msgstr ""
 
 #: templates/xadmin/views/login.html:75
-msgid "log in"
+msgid "audit in"
 msgstr ""
 
 #: templates/xadmin/views/model_dashboard.html:26

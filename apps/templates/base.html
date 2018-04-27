@@ -41,6 +41,22 @@
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+
+{#        <li class="active"><a href="#" style="color: #2b542c; font-size: 20px;">我的权限 </a></li>#}
+{#        <li><a href="#" style="color: #2b542c; font-size: 20px;">权限列表 </a></li>#}
+        <li class="dropdow">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+
           <!-- Tasks: style can be found in dropdown.less -->
           <li class="dropdown tasks-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -136,10 +152,10 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="{% url 'user_detail' user.pk %}" class="btn btn-default btn-flat">Profile</a>
+                  <a href="{% url 'accounts:user_detail' user.pk %}" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="{% url 'logout' %}" class="btn btn-default btn-flat">Logout</a>
+                  <a href="{% url 'accounts:logout' %}" class="btn btn-default btn-flat">Logout</a>
                 </div>
               </li>
             </ul>
@@ -160,7 +176,7 @@
         </div>
         <div class="pull-left info">
           <p>{{ user.username }}</p>
-            <a href="{% url 'user_detail' user.pk %}"><i class="fa fa-circle text-success"></i> Online 在线</a>
+            <a href="{% url 'accounts:user_detail' user.pk %}"><i class="fa fa-circle text-success"></i> Online 在线</a>
         </div>
       </div>
       <!-- search form -->
