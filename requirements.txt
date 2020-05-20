@@ -33,7 +33,7 @@ DjangoUeditor==1.8.143
 dlib==19.8.99
 drfdocs==0.0.11
 future==0.16.0
-httplib2==0.9.2
+httplib2==0.18.0
 humanize==0.5.1
 idna==2.6
 ipython==6.2.1
