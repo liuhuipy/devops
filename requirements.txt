@@ -12,7 +12,7 @@ celery==3.1.26.post2
 certifi==2018.1.18
 cffi==1.11.5
 chardet==3.0.4
-cryptography==2.1.4
+cryptography==3.2
 decorator==4.2.1
 defusedxml==0.5.0
 Django==1.10.5
