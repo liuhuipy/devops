@@ -28,7 +28,7 @@ django-mptt==0.9.0
 django-pure-pagination==0.3.0
 django-redis==4.8.0
 django-rest-framework==0.1.0
-djangorestframework==3.6.3
+djangorestframework==3.11.2
 DjangoUeditor==1.8.143
 dlib==19.8.99
 drfdocs==0.0.11
