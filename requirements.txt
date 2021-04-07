@@ -1,5 +1,5 @@
 amqp==1.4.9
-ansible==2.3.0.0
+ansible==2.10.0
 anyjson==0.3.3
 appnope==0.1.0
 argh==0.26.2
