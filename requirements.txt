@@ -49,7 +49,7 @@ parso==0.1.1
 pathtools==0.1.2
 pexpect==4.4.0
 pickleshare==0.7.4
-Pillow==4.1.1
+Pillow==9.0.0
 prompt-toolkit==1.0.15
 psutil==5.4.3
 ptyprocess==0.5.2
