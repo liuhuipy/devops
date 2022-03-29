@@ -44,7 +44,7 @@ kombu==3.0.37
 MarkupSafe==1.0
 msgpack-python==0.5.5
 olefile==0.44
-paramiko==2.4.0
+paramiko==2.10.1
 parso==0.1.1
 pathtools==0.1.2
 pexpect==4.4.0
