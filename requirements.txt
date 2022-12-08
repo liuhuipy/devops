@@ -9,7 +9,7 @@ beautifulsoup4==4.6.0
 billiard==3.3.0.23
 boto==2.48.0
 celery==3.1.26.post2
-certifi==2018.1.18
+certifi==2022.12.7
 cffi==1.11.5
 chardet==3.0.4
 cryptography==2.1.4
